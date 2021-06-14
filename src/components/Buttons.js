@@ -1,12 +1,14 @@
 import React from 'react';
 
-const Buttons = () => {
- return (
-   <div>
-     <button>Clear</button>
-     <button>Compute</button>
-   </div>
- );
-}
+const Buttons = ({ calculate }) => {
+  return (
+    <div>
+      <button>Clear</button>
+      <button onClick={calculate}>
+        Compute
+      </button>
+    </div>
+  );
+};
 
 export default Buttons;

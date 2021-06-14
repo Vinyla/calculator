@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Input = () => {
- return (
-  <div>
-   <input type="text" />
-  </div>
- )
+const Input = ({ input, inputValue }) => {
+  return (
+    <div>
+      <input value={input} onChange={inputValue} placeholder='Enter the operand and operator: 2,6,5.5,4,*,-,+' />
+    </div>
+  );
 };
  export default Input;
