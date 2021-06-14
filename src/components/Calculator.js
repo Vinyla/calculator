@@ -4,6 +4,7 @@ import Input from './Input';
 
 const Calculator = () => {
   const [input, setInputValue] = useState('');
+  const [result, setResult] = useState('');
 
   const inputValue = (e) => {
     setInputValue(e.target.value);
@@ -21,21 +22,21 @@ const Calculator = () => {
         let b = stack.pop();
         switch (expr[i]) {
           case '+':
-            stack.push(parseInt(a) + parseInt(b));
+            stack.push(parseFloat(a) + parseFloat(b));
             break;
           case '-':
-            stack.push(parseInt(a) - parseInt(b));
+            stack.push(parseFloat(a) - parseFloat(b));
             break;
           case '*':
-            stack.push(parseInt(a) * parseInt(b));
+            stack.push(parseFloat(a) * parseFloat(b));
             break;
           case '/':
-            stack.push(parseInt(a) / parseInt(b));
+            stack.push(parseFloat(a) / parseFloat(b));
             break;
           default:
         }
       }
-    console.log(stack);
+      console.log(stack);
     }
   };
 
