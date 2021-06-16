@@ -2,8 +2,12 @@ import React from 'react';
 
 const Input = ({ input, inputValue }) => {
   return (
-    <div>
-      <input value={input} onChange={inputValue} placeholder='Enter the operand and operator: 2,6,5.5,4,*,-,+' />
+    <div className='input-container'>
+      <input
+        value={input}
+        onChange={inputValue}
+        placeholder='Enter the operand and operator: 2,6,5.5,4,*,-,+'
+      />
     </div>
   );
 };

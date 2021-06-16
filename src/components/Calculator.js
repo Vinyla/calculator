@@ -7,11 +7,11 @@ const Calculator = () => {
   const [result, setResult] = useState('');
 
   const inputValue = (e) => {
-    setInputValue(e.target.value);
+    let expression = e.target.value;
+    setInputValue(expression);
   };
 
   const calculate = () => {
-    console.log('click');
     let expr = input.split(',');
     let stack = [];
     for (let i = 0; i < expr.length; i++) {
@@ -36,8 +36,15 @@ const Calculator = () => {
           default:
         }
       }
-      console.log(stack);
     }
+    let result = stack.pop();
+    setResult(result);
+    setInputValue(input + ' =' + result)
+    console.log(result);
+  };
+
+  const clearInput = () => {
+    setInputValue('');
   };
 
   return (
@@ -45,10 +52,11 @@ const Calculator = () => {
       <div className='calculator'>
         <div className='header-calculator'>
           <h3>Reverse Polish Notation Calculator</h3>
+          <div>{result}</div>
         </div>
         <div className='body-calculator'>
           <Input value={input} inputValue={inputValue} />
-          <Buttons calculate={calculate} />
+          <Buttons calculate={calculate} clearInput={clearInput} />
         </div>
       </div>
     </div>
