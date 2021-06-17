@@ -6,9 +6,8 @@ const Calculator = () => {
   const [input, setInputValue] = useState('');
   const [result, setResult] = useState('');
 
-  const inputValue = (e) => {
-    let expression = e.target.value;
-    setInputValue(expression);
+  const changeHandler = (e) => {
+    setInputValue(e.target.value);
   };
 
   const calculate = () => {
@@ -39,12 +38,13 @@ const Calculator = () => {
     }
     let result = stack.pop();
     setResult(result);
-    setInputValue(input + ' =' + result)
+    setInputValue(input + ' = ' + result);
     console.log(result);
   };
 
   const clearInput = () => {
     setInputValue('');
+    setResult('');
   };
 
   return (
@@ -55,7 +55,7 @@ const Calculator = () => {
           <div>{result}</div>
         </div>
         <div className='body-calculator'>
-          <Input value={input} inputValue={inputValue} />
+          <Input value={input} result={result} changeHandler={changeHandler} />
           <Buttons calculate={calculate} clearInput={clearInput} />
         </div>
       </div>
