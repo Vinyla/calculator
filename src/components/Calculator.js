@@ -5,6 +5,8 @@ import Input from './Input';
 const Calculator = () => {
   const [input, setInputValue] = useState('');
   const [result, setResult] = useState('');
+  const [errorMessage, setErrorMessage] = ('');
+  let operands = ['+', '-', '*', '/']
 
   const changeHandler = (e) => {
     setInputValue(e.target.value);
@@ -36,10 +38,8 @@ const Calculator = () => {
         }
       }
     }
-    let result = stack.pop();
-    setResult(result);
-    setInputValue(input + ' = ' + result);
-    console.log(result);
+    let solution = stack.pop();
+    setInputValue(`${input} = ${solution}`);
   };
 
   const clearInput = () => {
@@ -52,10 +52,9 @@ const Calculator = () => {
       <div className='calculator'>
         <div className='header-calculator'>
           <h3>Reverse Polish Notation Calculator</h3>
-          <div>{result}</div>
         </div>
         <div className='body-calculator'>
-          <Input value={input} result={result} changeHandler={changeHandler} />
+          <Input input={input} result={result} changeHandler={changeHandler} />
           <Buttons calculate={calculate} clearInput={clearInput} />
         </div>
       </div>
