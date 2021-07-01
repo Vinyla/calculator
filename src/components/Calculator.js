@@ -4,21 +4,22 @@ import Input from './Input';
 
 const Calculator = () => {
   const [input, setInputValue] = useState('');
-  const [result, setResult] = useState('');
-  const [errorMessage, setErrorMessage] = ('');
-  let operands = ['+', '-', '*', '/']
+  const [errorMessage, setErrorMessage] = useState('');
 
   const changeHandler = (e) => {
     setInputValue(e.target.value);
+    setErrorMessage(false);
   };
 
   const calculate = () => {
     let expr = input.split(',');
     let stack = [];
+    let numbers = isNaN;
+    let operands = ['+', '-', '*', '/'];
     for (let i = 0; i < expr.length; i++) {
-      if (!isNaN(expr[i]) && isFinite(expr[i])) {
+      if (!numbers(expr[i]) && isFinite(expr[i])) {
         stack.push(expr[i]);
-      } else if (isNaN(expr[i])) {
+      } else if (operands) {
         let a = stack.pop();
         let b = stack.pop();
         switch (expr[i]) {
@@ -39,12 +40,22 @@ const Calculator = () => {
       }
     }
     let solution = stack.pop();
-    setInputValue(`${input} = ${solution}`);
+    if (!input) {
+      setErrorMessage('You did not enter anything!');
+    } else if (input.match(/[a-z]/)) {
+      setErrorMessage('Only numbers and aritmetic operators are valid!');
+    } else if (stack.length === 1) {
+      setErrorMessage('Something went wrong! Check the number of OPERANDS!');
+    }
+    // else if () {
+    //   setErrorMessage('Something went wrong! Check the number of OPERATORS!');
+    // }
+    else setInputValue(`${input} = ${solution}`);
   };
 
   const clearInput = () => {
     setInputValue('');
-    setResult('');
+    setErrorMessage(false);
   };
 
   return (
@@ -54,8 +65,11 @@ const Calculator = () => {
           <h3>Reverse Polish Notation Calculator</h3>
         </div>
         <div className='body-calculator'>
-          <Input input={input} result={result} changeHandler={changeHandler} />
+          <Input input={input} changeHandler={changeHandler} />
           <Buttons calculate={calculate} clearInput={clearInput} />
+        </div>
+        <div className={'error-container'}>
+          <p>{errorMessage}</p>
         </div>
       </div>
     </div>

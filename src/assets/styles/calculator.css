@@ -78,3 +78,16 @@ button {
 .compute:active {
   border: 3px solid #829044;
 }
+
+.error-container {
+  display: flex;
+  justify-content: center;
+}
+
+.error-container p {
+  font-size: 14px;
+  margin: 10px 0 0 0;
+  position: fixed;
+  color: rgb(174, 44, 44);
+  font-weight: 700;
+}
