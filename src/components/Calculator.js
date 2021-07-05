@@ -5,7 +5,6 @@ import Input from './Input';
 const Calculator = () => {
   const [input, setInputValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  let numbers = isNaN;
   let operands = ['+', '-', '*', '/'];
 
   const changeHandler = (e) => {
@@ -13,51 +12,67 @@ const Calculator = () => {
     setErrorMessage(false);
   };
 
+  const containsOperation = (str, operations) => {
+    for (let i = 0; i < operations.length; i++) {
+      let operation = operations[i];
+      if (str.indexOf(operation) > -1) {
+        return true;
+      }
+    }
+    return false
+  }
+
   const calculate = () => {
     let expr = input.split(',');
     let stack = [];
-    let symbols = [];
-
+    let numbers = [];
+    let operations = [];
     for (let i = 0; i < expr.length; i++) {
-      if (!numbers(expr[i])) {
-        stack.push(expr[i]);
-      } else if (operands) {
-        symbols.push(expr[i]);
-        let a = stack.pop();
-        let b = stack.pop();
-
-        switch (expr[i]) {
-          case '+':
-            stack.push(parseFloat(a) + parseFloat(b));
-            break;
-          case '-':
-            stack.push(parseFloat(a) - parseFloat(b));
-            break;
-          case '*':
-            stack.push(parseFloat(a) * parseFloat(b));
-            break;
-          case '/':
-            stack.push(parseFloat(a) / parseFloat(b));
-            break;
-          default:
-        }
+      if (!containsOperation(expr[i], ["+", "-", "*", "/"])) {
+        numbers.push(parseFloat(expr[i].toString()));
+      } else {
+        operations.push(expr[i]);
       }
     }
-    let solution = stack.pop();
-    setInputValue(`${input} = ${solution}`);
-    if (input === '') {
-      setErrorMessage('You did not enter anything!');
-      setInputValue(input);
-    } else if (input.match(/[a-z]/)) {
-      setErrorMessage('Only numbers and aritmetic operators are valid!');
-      setInputValue(input);
+    if (operations.length + 1 === numbers.length) {
+      for (let i = 0; i < expr.length; i++) {
+        if (!isNaN(expr[i])) {
+          stack.push(expr[i]);
+        } else if (operands) {
+          let a = stack.pop();
+          let b = stack.pop();
+          switch (expr[i]) {
+            case '+':
+              stack.push(parseFloat(a) + parseFloat(b));
+              break;
+            case '-':
+              stack.push(parseFloat(a) - parseFloat(b));
+              break;
+            case '*':
+              stack.push(parseFloat(a) * parseFloat(b));
+              break;
+            case '/':
+              stack.push(parseFloat(a) / parseFloat(b));
+              break;
+            default:
+          }
+        }
+      }
+
+      let solution = stack.pop();
+      setInputValue(`${input} = ${solution}`);
+      if (input === '') {
+        setErrorMessage('You did not enter anything!');
+        setInputValue(input);
+      } else if (input.match(/[a-z]/)) {
+        setErrorMessage('Only numbers and aritmetic operators are valid!');
+        setInputValue(input);
+      }
+    } else if (operations.length >= numbers.length) {
+      return setErrorMessage("Something went wrong! Check number of OPERATORS")
+    } else {
+      setErrorMessage('Something went wrong! Check the number of OPERANDS!');
     }
-    // if (symbols.length >= stack.length) {
-    //   setErrorMessage('Something went wrong! Check number of OPERATORS!');
-    //   setInputValue(input);
-    // } else {
-    //   setErrorMessage('Something went wrong! Check the number of OPERANDS!');
-    // }
   };
 
   const clearInput = () => {
