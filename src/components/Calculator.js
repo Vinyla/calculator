@@ -5,6 +5,8 @@ import Input from './Input';
 const Calculator = () => {
   const [input, setInputValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  let numbers = isNaN;
+  let operands = ['+', '-', '*', '/'];
 
   const changeHandler = (e) => {
     setInputValue(e.target.value);
@@ -14,14 +16,16 @@ const Calculator = () => {
   const calculate = () => {
     let expr = input.split(',');
     let stack = [];
-    let numbers = isNaN;
-    let operands = ['+', '-', '*', '/'];
+    let symbols = [];
+
     for (let i = 0; i < expr.length; i++) {
-      if (!numbers(expr[i]) && isFinite(expr[i])) {
+      if (!numbers(expr[i])) {
         stack.push(expr[i]);
       } else if (operands) {
+        symbols.push(expr[i]);
         let a = stack.pop();
         let b = stack.pop();
+
         switch (expr[i]) {
           case '+':
             stack.push(parseFloat(a) + parseFloat(b));
@@ -40,17 +44,20 @@ const Calculator = () => {
       }
     }
     let solution = stack.pop();
-    if (!input) {
+    setInputValue(`${input} = ${solution}`);
+    if (input === '') {
       setErrorMessage('You did not enter anything!');
+      setInputValue(input);
     } else if (input.match(/[a-z]/)) {
       setErrorMessage('Only numbers and aritmetic operators are valid!');
-    } else if (stack.length === 1) {
-      setErrorMessage('Something went wrong! Check the number of OPERANDS!');
+      setInputValue(input);
     }
-    // else if () {
-    //   setErrorMessage('Something went wrong! Check the number of OPERATORS!');
+    // if (symbols.length >= stack.length) {
+    //   setErrorMessage('Something went wrong! Check number of OPERATORS!');
+    //   setInputValue(input);
+    // } else {
+    //   setErrorMessage('Something went wrong! Check the number of OPERANDS!');
     // }
-    else setInputValue(`${input} = ${solution}`);
   };
 
   const clearInput = () => {
