@@ -64,7 +64,7 @@ const Calculator = () => {
       if (input === '') {
         setErrorMessage('You did not enter anything!');
         setInputValue(input);
-      } else if (input.match(/[a-z]/)) {
+      } else if (input.match(/[a-z =()]/)) {
         setErrorMessage('Only numbers and aritmetic operators are valid!');
         setInputValue(input);
       }
